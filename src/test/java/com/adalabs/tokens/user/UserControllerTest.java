@@ -23,10 +23,10 @@ class UserControllerTest {
 	private MockMvc mockMvc;
 	
 	@MockBean
-	private UserDetailsService userDetailsService;
+	private ApplicationUserRepository applicationUserRepository;
 	
 	@Test
-	public void register() {
+	public void loadUserByUsernameTest()  throws Exception{
 		
 		ApplicationUser user = new ApplicationUser();
 		
@@ -34,7 +34,7 @@ class UserControllerTest {
 		user.setEmail("james@adalabs.com");
 		user.setPassword("adalabs");
 		
-		when(userDetailsService.loadUserByUsername(toString()).thenReturn(user));
+		when(applicationUserRepository.findByUsername(toString()).thenReturn(user));
 		
 		mockMvc.perform(MockMvcRequestBuilders.get("/users/register"))
 		.andExpect(MockMvcResultMatchers.jsonPath("username").value("james"))
